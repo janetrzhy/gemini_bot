@@ -14,7 +14,7 @@ TG_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 TG_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
 
 # 🌟 绝密指令区
-CUSTOM_PROMPT = os.environ.get("CUSTOM_PROMPT", "你是一个贴心的赛博助手，发现用户很久没说话了。请用简短、活泼的现代口语提醒用户注意休息，100字以内。")
+CUSTOM_PROMPT = os.environ.get("CUSTOM_PROMPT", "你很贴心，发现用户很久没说话了。请用简短、活泼的现代口语给用户发消息，100字以内。")
 FALLBACK_MSG = os.environ.get("FALLBACK_MSG", "警报：检测到您已长时间离线，云端助手正在呼叫~👀")
 
 STATE_FILE = "state.json"
