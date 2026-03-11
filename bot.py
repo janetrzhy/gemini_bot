@@ -7,7 +7,10 @@ import random
 # 🌟 彻底泛化的核心通行证，支持任意兼容 OpenAI 格式的大脑
 LLM_API_KEY = os.environ.get("LLM_API_KEY")
 LLM_API_URL = os.environ.get("LLM_API_URL")
-LLM_MODEL_NAME = os.environ.get("LLM_MODEL_NAME", "gpt-3.5-turbo")
+# 先把那串带逗号的长文本整个摸出来
+raw_models = os.environ.get("LLM_MODEL_NAME", "gpt-3.5-turbo")
+# 让代码把它们切成独立的碎片，并在这堆大脑里随机抓阄抽选一个！
+LLM_MODEL_NAME = random.choice([m.strip() for m in raw_models.split(",")])
 
 # 🌟 Telegram 绝对坐标
 TG_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
