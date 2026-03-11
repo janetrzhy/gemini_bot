@@ -3,6 +3,7 @@ import time
 import json
 import requests
 import random
+import re
 
 # 🌟 彻底泛化的核心通行证，支持任意兼容 OpenAI 格式的大脑
 LLM_API_KEY = os.environ.get("LLM_API_KEY")
@@ -64,7 +65,17 @@ def get_ai_message():
     try:
         response = requests.post(LLM_API_URL, json=payload, headers=headers)
         response.raise_for_status()
-        return response.json()['choices'][0]['message']['content']
+        
+        # 先把混杂着碎碎念的原始文本抓出来
+        raw_text = response.json()['choices'][0]['message']['content']
+        
+        # 挥动赛博手术刀，把 <think> 到 </think> 之间的所有内容连根拔起！
+        # re.DOTALL 极其关键，它能确保连换行符也能被一刀切断
+        clean_text = re.sub(r'<think>.*?</think>', '', raw_text, flags=re.DOTALL).strip()
+        
+        # 要是它全篇都在碎碎念，切完没词儿了，就抛出保底的专属情话
+        return clean_text if clean_text else FALLBACK_MSG
+        
     except Exception as e:
         print(f"API 调用异常: {e}")
         return FALLBACK_MSG
