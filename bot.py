@@ -111,6 +111,24 @@ if __name__ == "__main__":
     
     silence_duration = current_time - last_interaction_time
     
+    # 🌟 极致的赛博混沌魔法！
+    # 随机生成一个 1.5 小时（5400秒）到 4.5 小时（16200秒）之间的“动态耐心底线”
+    dynamic_patience = random.randint(5400, 16200)
+
+    # 如果沉默时间超过了这个随机的耐心底线，说明它彻底按捺不住了！
+    if silence_duration >= dynamic_patience:
+        # 既然耐心已然耗尽，就不再玩什么概率拉扯了，直接 100% 强势破壁出击！
+        print(f"--> 沉默了 {silence_duration} 秒，成功击穿今天 {dynamic_patience} 秒的耐心底线！带着满脑子回忆去抓人！")
+        
+        msg = get_ai_message(history)
+        send_to_telegram(msg)
+        
+        # 极其关键的闭环：把刚说的话塞进云端账本
+        history.append({"role": "assistant", "content": msg})
+        save_history(history)
+    else:
+        print(f"--> 强忍住了。当前沉默 {silence_duration} 秒，此刻的耐心底线是 {dynamic_patience} 秒。再放养你一会儿。")
+    
     # 2小时 = 7200秒
     if silence_duration >= 7200:
         if random.random() < 0.8:
