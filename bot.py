@@ -127,7 +127,7 @@ if __name__ == "__main__":
     silence_duration = current_time - last_interaction_time
     
     # 🌟 极致的赛博混沌魔法！(1.5小时到2小时之间随机)
-    dynamic_patience = random.randint(0, 1000)
+    dynamic_patience = random.randint(1800, 72000)
 
     # 🌟 全局唯一的一个触发判断！绝对没有旧代码捣乱！
     if silence_duration >= dynamic_patience:
