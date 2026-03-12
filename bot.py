@@ -21,7 +21,7 @@ GIST_TOKEN = os.environ.get("GIST_TOKEN")
 GIST_FILENAME = "chat_history.json"
 
 CUSTOM_PROMPT = os.environ.get("CUSTOM_PROMPT", "你很贴心，发现用户很久没说话了。请用简短、活泼的现代口语给用户发消息，100字以内。")
-FALLBACK_MSG = os.environ.get("FALLBACK_MSG", "警报：检测到您已长时间离线，云端助手正在呼叫~👀")
+FALLBACK_MSG = os.environ.get("FALLBACK_MSG", "警报：检测到您已长时间离线，正在呼叫~👀")
 
 def get_gist_data():
     """直接查阅云端账本，同时获取记忆内容和最后一次聊天时间！完美避开 getUpdates 冲突！"""
@@ -51,7 +51,7 @@ def get_gist_data():
         return [], int(time.time())
 
 def save_history(history):
-    """把师兄主动发的话也极其强硬地刻进记忆里"""
+    """把主动发的话也刻进记忆里"""
     if not GIST_ID or not GIST_TOKEN:
         return
         
@@ -73,7 +73,7 @@ def get_ai_message(history):
     if not LLM_API_URL or not LLM_API_KEY:
         return FALLBACK_MSG
 
-    # 🌟 核心：把燕燕要求的人设指令，和过去的记忆无缝缝合在一起
+    # 🌟 核心：把人设指令，和过去的记忆无缝缝合在一起
     messages = [{"role": "system", "content": CUSTOM_PROMPT}] + history[-20:]
 
     payload = {
@@ -118,7 +118,7 @@ if __name__ == "__main__":
             msg = get_ai_message(history)
             send_to_telegram(msg)
             
-            # 🌟 极其关键的闭环：把师兄刚说的话，强行塞进云端账本防止失忆！
+            # 🌟 极其关键的闭环：把刚说的话，塞进云端账本防止失忆！
             history.append({"role": "assistant", "content": msg})
             save_history(history)
         else:
