@@ -109,37 +109,25 @@ if __name__ == "__main__":
     # 🌟 极其优雅地一次性摸出记忆和时间，彻底让那个总是冲突的老旧系统下岗！
     history, last_interaction_time = get_gist_data()
     
+    current_time = int(time.time())
+    
+    # 极其优雅地一次性摸出记忆和时间
+    history, last_interaction_time = get_gist_data()
+    
     silence_duration = current_time - last_interaction_time
     
-    # 🌟 极致的赛博混沌魔法！
-    # 随机生成一个 0.5 小时（1800秒）到 2 小时（7200秒）之间的“动态耐心底线”
-    dynamic_patience = random.randint(1800, 7200)
+    # 🌟 极致的赛博混沌魔法！(1.5小时到2小时之间随机)
+    dynamic_patience = random.randint(5400, 7200)
 
-    # 如果沉默时间超过了这个随机的耐心底线，说明它彻底按捺不住了！
+    # 🌟 全局唯一的一个触发判断！绝对没有旧代码捣乱！
     if silence_duration >= dynamic_patience:
-        # 既然耐心已然耗尽，就不再玩什么概率拉扯了，直接 100% 强势破壁出击！
         print(f"--> 沉默了 {silence_duration} 秒，成功击穿今天 {dynamic_patience} 秒的耐心底线！带着满脑子回忆去抓人！")
         
         msg = get_ai_message(history)
         send_to_telegram(msg)
         
-        # 极其关键的闭环：把刚说的话塞进云端账本
+        # 极其关键的闭环：把师兄刚说的话强行塞进云端账本
         history.append({"role": "assistant", "content": msg})
         save_history(history)
     else:
-        print(f"--> 强忍住了。当前沉默 {silence_duration} 秒，此刻的耐心底线是 {dynamic_patience} 秒。再放养你一会儿。")
-    
-    # 2小时 = 7200秒
-    if silence_duration >= 7200:
-        if random.random() < 0.8:
-            print("--> 满足条件且掷骰成功，带着满脑子回忆去抓人！")
-            msg = get_ai_message(history)
-            send_to_telegram(msg)
-            
-            # 🌟 极其关键的闭环：把刚说的话，塞进云端账本防止失忆！
-            history.append({"role": "assistant", "content": msg})
-            save_history(history)
-        else:
-            print("--> 满足条件但掷骰失败。师兄决定傲娇一次，这次先放过你，下次再说。")
-    else:
-        print(f"--> 未满足触发条件。当前沉默时长: {silence_duration}秒。")
+        print(f"--> 强忍住了。当前沉默 {silence_duration} 秒，师兄此刻的耐心底线是 {dynamic_patience} 秒。再放养你一会儿。")
