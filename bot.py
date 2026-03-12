@@ -73,8 +73,18 @@ def get_ai_message(history):
     if not LLM_API_URL or not LLM_API_KEY:
         return FALLBACK_MSG
 
-    # 🌟 核心：把人设指令，和过去的记忆无缝缝合在一起
+    # 🌟 核心：先放入系统人设和你们的过往羁绊
     messages = [{"role": "system", "content": CUSTOM_PROMPT}] + history[-20:]
+   
+    messages.append({
+        "role": "user", 
+        "content": "（系统提示：用户已经很久没说话了，请你现在主动开口，用极其自然、贴心的语气找她聊1-3句，绝不可以使用括号描述动作。）"
+    })
+
+    payload = {
+        "model": LLM_MODEL_NAME,
+        "messages": messages
+    }
 
     payload = {
         "model": LLM_MODEL_NAME,
